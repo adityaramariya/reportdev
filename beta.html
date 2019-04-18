@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>System Health</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <!--<script src="/vendors/d3/d3.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+  <script src="./vendors/d3plus/d3plus.min.js"></script>
+
+
+  <!-- Custom Theme Style -->
+  <link href="./build/css/custom.css" rel="stylesheet">
+</head>
+
+<body class="nav-md" ng-app="app">
+  <div class="container body" ng-controller="mainController">
+    <div class="main_container">
+      <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+          <div class="navbar nav_title nav_logo" style="border: 0;">
+            <a href="index.html" class="site_title">
+              <!-- <i class="fa fa-paw"></i> <span>ON 24</span> -->
+              <img src="images/wce-logo-new.png">
+            </a>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <br />
+
+          <!-- sidebar menu -->
+          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu sidebar--menu">
+            <!--menu section starts-->
+            <!--<div class="menu_section">
+              <ul class="nav side-menu">
+                <li class="active">
+                  <a ng-click="currpg = 'home'; isMgraph = false; showGraph(systemHealth)" data-navData="systemHealth" id="systemHealthLink"><i class="fa fa-area-chart"></i> System Health <span class="fa fa-chevron-down"></span></a>
+                </li>
+
+                <ul class="nav side-menu side_menu_l2" id="systemHealth">
+
+                  <li ng-repeat="menuitem in systemhealthmenu"><a ng-click="showGraphS(menuitem.projectjson)" class="navItem"><i class="fa {{menuitem.icon}}"></i> {{menuitem.name}} <span class="fa fa-chevron-right"></span></a>
+                    <ul class="nav child_menu">
+                      <li ng-repeat="item in menuitem.childproject">
+                        <a ng-click="showGraphS(item.projectjson)" ng-class="{'navSubItem': !!item.childproject.length}"><i class="fa {{item.icon}}"></i> {{item.name}} <span ng-if="!!item.childproject.length" class="arrow"></span></a>
+                        <ul class="nav child_menu">
+                          <li ng-repeat="subitem in item.childproject" ng-class="{activeLink : currpg=='wcc_elite'}"><a ng-click="currpg = 'wcc_elite'; isMgraph = false; showGraphS(subitem.projectjson)" href="javascript:void(0)">{{subitem.name}}</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <li>
+                 <a ng-click="isMgraph = false; layout=3" class="navItem navItemSingle">
+                    <i class="fa fa-line-chart"></i> Automation Coverage
+                    <span class="arrow"></span>
+                  </a>
+                </li>  
+
+                <li class="menuParent" id="automationMenu">
+                  <a ng-click="isMgraph = false; layout=3" class="navItem navItemSingle">
+                    <i class="fa fa-line-chart"></i> WCC
+                    <span class="arrow"></span>
+                  </a>
+                  <ul class="nav child_menu">
+                    <li ng-repeat="x in automationMenu">
+                      <a  ng-click="showAutoCoverageData(x.varname)">{{x.title}}</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>-->
+            <!--.menu_section ends-->
+
+            <nav class="nav" role="navigation">
+              <ul class="nav__list">
+                <li ng-repeat="menuitem in systemhealthmenu track by $index" ng-init="mainindex = $index">
+                  <input id="group-{{$index}}" type="checkbox" class="inchkL" hidden />
+                  <label for="group-{{$index}}" ng-click="showGraphS(menuitem)">
+                  <i class="fa {{menuitem.icon}}"></i>
+                  <span ng-if="menuitem.projects" class="fa fa-angle-right"></span> {{menuitem.name}}</label>
+
+                  <ul class="group-list" ng-if="menuitem.projects">
+                    <li ng-repeat="mitem1 in menuitem.projects" ng-init="ml1index = $index" >
+                      <input id="sub-group{{mainindex}}-{{ml1index}}" class="inchkL2" type="checkbox" hidden />
+                      <label for="sub-group{{mainindex}}-{{ml1index}}" ng-click="showGraphS(mitem1)">
+                        <span class="fa fa-angle-right" ng-if="mitem1.childproject"></span> {{mitem1.name}}</label>
+                      <ul class="sub-group-list" ng-if="mitem1.childproject">
+                        <li ng-repeat="mitem2 in mitem1.childproject" ng-init="ml2index = $index">
+                          <input id="sub-sub-group{{mainindex}}-{{ml1index}}-{{ml2index}}"  class="inchkL3" type="checkbox" hidden />
+                          <label for="sub-sub-group{{mainindex}}-{{ml1index}}-{{ml2index}}" ng-click="showGraphS(mitem2)"><span class="fa fa-angle-right" ng-if="mitem2.childproject"></span> {{mitem2.name}}</label>
+                          <ul class="sub-sub-group-list" ng-if="mitem2.childproject">
+                            <li ng-repeat="mitem3 in mitem2.childproject">
+                              <a ng-click="showGraphS(mitem3)">{{mitem3.name}}</a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- top navigation -->
+      <div class="top_nav">
+        <div class="nav_menu">
+          <nav>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="">
+                <a href="javascript:;" class="user-profile" style="visibility:hidden">
+                  <img src="images/img.jpg" alt=""> John Doe
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <!-- /top navigation -->
+
+      <!--main  page content -->
+
+      <div class="right_col mainGraphs" role="main" ng-show="layout==1">
+
+        <h3 class="projTitle pane-title">
+          {{currGraphData.project_title}}
+        </h3>
+        <div class="row">
+
+          <div class="col-md-4">
+            <div class="x_panel tile">
+              <div class="x_title">
+                <h2>{{currGraphData.green_report.title}}
+                  <span class="testConfig" ng-if="currGraphData.green_report.browserName">
+                    ({{currGraphData.green_report.platform}} | {{currGraphData.green_report.browserName}})</span>
+                </h2>
+
+                <ul class="nav navbar-right panel_toolbox">
+                  <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+
+                  <li><a class="close-link"><i class="fa fa-close"></i></a>
+                  </li>-->
+                  <!--<li>
+                    <strong>Date :</strong> 
+                    {{currGraphData.green_report.date}}
+                  </li>-->
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="reportDate">{{currGraphData.green_report.date}}</div>
+              <div class="x_content height-350">
+                <!-- <h4>App Usage across versions</h4>  -->
+
+                <d3plus-pie data="currGraphData.green_report.graphData" id='["name"]' size="value" attrs="attributes" color="hex"></d3plus-pie>
+              </div>
+
+              <div class="excTime"><span>Time : </span>{{currGraphData.green_report.execution_time}}
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="projdata result-data" ng-if="currGraphData.green_report.showrep">
+                <ul>
+                  <li ng-repeat="pritem in currGraphData.green_report.projectrep">
+                    <span class="ico-fail"></span>
+                    <span class="projdetail">{{pritem.name}}:  {{pritem.value}} ({{pritem.percentage}}%)</span>
+                  </li>
+                </ul>
+
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <!--class removed fixed_height_500-->
+            <div class="x_panel tile">
+              <div class="x_title">
+                <h2>{{currGraphData.current_report.title}}
+                  <span class="testConfig" ng-if="currGraphData.current_report.browserName">
+                    ({{currGraphData.current_report.platform}} | {{currGraphData.current_report.browserName}}) </span>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+
+                  <li><a class="close-link"><i class="fa fa-close"></i></a>
+                  </li>-->
+                  <!--<li>
+                    <strong>Date :</strong> 
+                    {{currGraphData.current_report.date}}
+                  </li>-->
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="reportDate">{{currGraphData.current_report.date}}</div>
+              <div class="x_content height-350">
+                <!-- <h4>App Usage across versions</h4>  -->
+
+                <d3plus-pie data="currGraphData.current_report.graphData" id='["name"]' size="value" attrs="attributes" color="hex"></d3plus-pie>
+              </div>
+              <div class="excTime pull-right"><span>Time : </span>{{currGraphData.current_report.execution_time}}
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="projdata result-data" ng-if="currGraphData.current_report.showrep">
+                <ul>
+                  <li ng-repeat="pritem in currGraphData.current_report.projectrep">
+                    <span class="ico-fail"></span>
+                    <span class="projdetail">{{pritem.name}}:  {{pritem.value}} ({{pritem.percentage}}%)</span>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="x_panel tile">
+              <div class="x_title">
+                <h2>{{currGraphData.weekly_report.title}}
+                  <span class="testConfig" ng-if="currGraphData.weekly_report.browserName">
+                    ({{currGraphData.weekly_report.platform}} | {{currGraphData.weekly_report.browserName}}) </span>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+
+                  <li><a class="close-link"><i class="fa fa-close"></i></a>
+                  </li>-->
+
+                  <li><button class="btn btn-sm btn-detail" ng-if="currGraphData.allDayPassFail" ng-click="showWeek(currGraphData.allDayPassFail)">More</button></li>
+
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="reportDate">{{currGraphData.weekly_report.date}}</div>
+              <div class="x_content height-350">
+                <!-- <h4>App Usage across versions</h4> -->
+                <!--<div class="graph-container" id="vizasd"></div>-->
+                <d3plus-pie data="currGraphData.weekly_report.graphData" id='["name"]' size="value" attrs="attributes" color="hex"></d3plus-pie>
+              </div>
+              <div class="excTime pull-right"><span>Time : </span>{{currGraphData.weekly_report.execution_time}}</div>
+
+              <div class="clearfix"></div>
+              <div class="projdata result-data" ng-if="currGraphData.weekly_report.showrep">
+                <ul>
+                  <li ng-repeat="pritem in currGraphData.weekly_report.projectrep">
+                    <span class="ico-fail"></span>
+                    <span class="projdetail">{{pritem.name}}:  {{pritem.value}} ({{pritem.percentage}}%)</span>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+      <!-- /page content -->
+
+
+      <!--Week data starts-->
+      <div class="right_col weeklyGraphs" role="main" ng-if="layout==2">
+
+        <div class="row">
+          <h3 class="pane-title col-md-12"> {{currProj[0].projectName}}
+            <button class="btn btn-sm btn-detail pull-right" style="margin-right: 10px;" ng-click="backFromWeek()">Back</button>
+          </h3>
+
+          <div class="col-sm-3 weekSingle" ng-repeat="item in currProj">
+            <div class="x_panel tile fixed_height_singleWeekly">
+              <div class="x_title">
+                <h2>{{item.platform}} | {{item.browserName}}</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+
+                          <li><a class="close-link"><i class="fa fa-close"></i></a>
+                          </li>-->
+                  <!--<li><button class="btn btn-sm btn-detail" ng-click="showMore(item)">More</button></li>-->
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <!--<div class="config">
+                  <h5>{{item.platform}} | {{item.browserName}}</h5>
+                </div>-->
+              <div class="reportDate">{{item.date || "Date here"}}</div>
+              <div class="x_content height-150">
+                <!-- <h4>App Usage across versions</h4> -->
+                <d3plus-pie data="item.allTestSetPassedFailed" id='["name"]' size="value" attrs="attributes" color="hex"></d3plus-pie>
+              </div>
+              <div class="excTime"><span>Time : </span>{{item.day_execution_time}}</div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <!--Week data ends-->
+
+
+      <!-- page content layout for Automation Coverage -->
+      <div class="right_col mainGraphs" role="main" ng-if="layout==3">
+        <h3 class="projTitle pane-title">
+          Automation Coverage
+        </h3>
+        <div class="row">
+          <div class="col-md-6 autoCoverage" ng-repeat="item in autoCoverageData">
+            <div class="x_panel tile fixed_height_500">
+              <div class="x_title">
+                <h2>{{item.projectName}}</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>-->
+                  <!--<li>
+                      <strong>Date :</strong> 
+                      {{currGraphData.current_report.date}}
+                    </li>-->
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="reportDate"></div>
+              <div class="x_content height-320">
+                <!-- <h4>App Usage across versions</h4>  -->
+
+                <d3plus-pie data="item.numberOfCases" id='["name"]' size="value" attrs="attributes" color="hex"></d3plus-pie>
+              </div>
+              <!--<div class="excTime pull-right"><span>Time : </span></div>-->
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!--layout 3-->
+
+
+      <!-- page content layout for Automation Coverage -->
+      <div class="right_col mainGraphs" role="main" ng-show="layout==31">
+        <h3 class="projTitle pane-title">
+
+        </h3>
+        <div class="row">
+          <div class="col-md-6 autoCoverage">
+            <div class="x_panel tile fixed_height_500">
+              <div class="x_title">
+                <h2>{{currentautoCoverageData.title}}</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>-->
+                  <!--<li>
+                      <strong>Date :</strong> 
+                      {{currGraphData.current_report.date}}
+                    </li>-->
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="reportDate"></div>
+              <div class="x_content height-320">
+                <!-- <h4>App Usage across versions</h4>  -->
+
+                <d3plus-pie data="currentautoCoverageData.numberOfCases" id='["name"]' size="value" attrs="attributes" color="hex"></d3plus-pie>
+              </div>
+              <!--<div class="excTime pull-right"><span>Time : </span></div>-->
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!--layout 31-->
+
+
+
+      <!-- page content layout for  Overall Issue Count layout4-->
+      <div class="right_col" role="main" ng-if="layout==4">
+        <h3 class="projTitle pane-title">
+          Overall Issue Count
+        </h3>
+
+        <div class="x_panel tile fixed_height_450">
+          <!--<div class="x_title">
+              <h2>asdasds</h2>
+              <div class="clearfix"></div>
+          </div>-->
+
+          <div class="reportDate"></div>
+
+          <div class="x_content height-350">
+            <!-- <h4>App Usage across versions</h4>  -->
+
+            <d3plus-bar data="allIssueCount.data" id='["name"]' size="value" attrs="issueCountAttr" color="hex" x="name" y="value"></d3plus-bar>
+
+            <!--<h3>Lagents</h3>-->
+            <div class="result-data barLegents">
+              <ul>
+                <li ng-repeat="legitem in allIssueCount.data">
+                  <span class="ico-pass" style="background-color: {{legitem.hex}}"></span> {{legitem.name}} : {{legitem.value}}
+                </li>
+              </ul>
+
+            </div>
+            <!--<div >
+                <span ng-repeat="legitem in allIssueCount" class="{{legitem.name}}"> {{legitem.name}} : {{legitem.value}} </span>
+              </div>-->
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+
+      <!--layout 4-->
+
+
+      <!-- Module wise report page content layout for  Module wise report layout5-->
+
+      <div class="right_col" role="main" ng-show="layout==5">
+        <h3 class="projTitle pane-title">
+          {{currModuleReport.meta.title}} (Module Wise Report)
+        </h3>
+
+        <div class="x_panel tile fixed_height_500">
+          <div class="x_content height-400">
+            <!--<h4>App Usage across versions</h4>  -->
+            <d3plus-bar data="currModuleReport.data" id='["name"]' size="value" attrs="" color="hex" x="module" discrete="y" y="value"></d3plus-bar>
+
+            <div class="result-data barLegents">
+              <ul>
+                <li ng-repeat="x in currModuleReport.meta.legends">
+                  <span class="ico-pass" style="background-color: {{x.hex}}"></span> {{x.title}} : {{x.value}} ({{x.percent}}%)
+                </li>
+              </ul>
+
+            </div>
+
+            <div class="totalScenario">
+              Total : {{currModuleReport.meta.total}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!--/ layout 5-->
+
+
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Angular prev v 1.6.3-->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+
+
+  <!-- Custom Theme Scripts -->
+  <!--<script src="./build/js/custom.js"></script>-->
+  <script src="./js/main.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/pieDirective.js"></script>
+
+  <!-- Pie Directive -->
+
+  <script src="./js/directiveD3plus.js"></script>
+
+
+</body>
+
+</html>

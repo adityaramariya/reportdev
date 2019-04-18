@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800');
+body {
+	 color : #131414;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.reportTable {
+   /* margin-top: 30px; */
+    /* border: 1px solid rgba(221, 221, 221, 0.39); */
+    border: 2px solid rgb(44, 187, 255);
+}
+
+.reportTable a {
+	 color : #5A388E;
+    font-weight: 500;
+    font-size: 1.125em;
+}
+
+.reportTable thead tr {
+    background: #2cbbff;
+    color: #fff;
+}
+
+.reportTable th:not(:first-child) {
+    text-align: center;
+}
+
+.reportTable td:not(:first-child) {
+    text-align: center;
+}
+
+.reportTable td:first-child {
+    font-weight: 600;
+    color: #00adff;
+}
+
+
+
+.reportPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.reportPopup .modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.reportPopup .modal-dialog {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.reportPopup ul {
+    list-style-type: none;
+}
+
+.sdataList {
+    padding-left: 0;
+    margin-top: 8px;
+}
+
+.sdataList h5 {
+    margin: 5px 0 10px;
+}
+
+.sdataList li:not(:first-child) {
+    border-top: 1px solid #e8e8e8;
+    padding: 8px 0px;
+}
+
+.scenario {
+    border-left: 2px solid rgba(39, 39, 39, 0.24);
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.mList {
+    padding-left: 10px;
+}
+
+.total-row {
+    background-color: #2cbbff!important;
+    /*color: #fff!important;*/
+    /*border: 2px solid #2cbbff;*/
+    background: #2cbbff;
+}
+
+
+
+.total-row td  {
+    color: #fff!important;
+	font-weight: 600;
+    font-size: 1.125em;
+}
+
+.projTotal{
+    font-weight: 600;
+    font-size: 1.125em;
+    background: whitesmoke;
+}
+.reportTable tbody tr:not(.total-row) td:first-child {
+    background: whitesmoke;
+}
+.ico-box {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 1px 10px 0px 3px;
+    border: 1px solid rgba(0, 0, 0, .2);
+  }
+.height-400c {
+    height: 378px;
+    max-height: 378px;
+}
+.reportpie #data .d3plus_arc {
+    opacity: 1 !important;
+}
+.hide-content {
+    display: none;
+}
+
+.orangeclr{
+    color: #f58c29 !important;
+}
+.whiteclr{
+    color: #fff !important;
+}
+
+#maintbwrap tbody tr:nth-child(1) {
+    background-color: #56a2cf;
+    color: #fff;
+  }
+
+  #maintbwrap.table-bordered>tbody>tr>td,
+  .table-bordered>tbody>tr>th,
+  .table-bordered>tfoot>tr>td,
+  .table-bordered>tfoot>tr>th,
+  .table-bordered>thead>tr>td,
+  .table-bordered>thead>tr>th {
+    border: 2px solid #c7c7c7 !important;
+  }
+
+  #maintbwrap.table-bordered {
+    border: 1px solid #ccc !important;
+    background-color: #fafafa;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  #maintbwrap tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+
+  #maintbwrap.table>tbody>tr>th,
+  #maintbwrap.table>tfoot>tr>td,
+  #maintbwrap.table>tfoot>tr>th,
+  #maintbwrap.table>thead>tr>td,
+  #maintbwrap.table>thead>tr>th,
+  #maintbwrap.table>tbody>tr>td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+  }
+
+  /*#maindata{
+          width:80%;
+          margin:30px auto;
+        }*/
+  #maintbwrap tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+  }
+
+  #maintbwrap th {
+    font-size: 17px;
+    text-align: left;
+  }
+
+  #maintbwrap tr td:nth-child(1) {
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  #secondtbwrap tbody tr:nth-child(1) {
+    background-color: #56a2cf;
+    color: #fff;
+  }
+
+  #secondtbwrap.table-bordered>tbody>tr>td,
+  .table-bordered>tbody>tr>th,
+  .table-bordered>tfoot>tr>td,
+  .table-bordered>tfoot>tr>th,
+  .table-bordered>thead>tr>td,
+  .table-bordered>thead>tr>th {
+    border: 2px solid #c7c7c7 !important;
+  }
+
+  #secondtbwrap.table-bordered {
+    border: 1px solid #ccc !important;
+    background-color: #fafafa;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  #secondtbwrap tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+
+  #secondtbwrap.table>tbody>tr>th,
+  #secondtbwrap.table>tfoot>tr>td,
+  #secondtbwrap.table>tfoot>tr>th,
+  #secondtbwrap.table>thead>tr>td,
+  #secondtbwrap.table>thead>tr>th,
+  #secondtbwrap.table>tbody>tr>td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+  }
+
+  /*#maindata{
+          width:80%;
+          margin:30px auto;
+        }*/
+  #secondtbwrap tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+  }
+
+  #secondtbwrap th {
+    font-size: 17px;
+    text-align: left;
+  }
+
+  #secondtbwrap tr td:nth-child(1) {
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  /*   #maindata{
+      width:80%;
+      margin:30px auto;
+      }*/
+  .failuresText {
+    margin: 0px 25px 10px;
+  }
+
+  .failuresText:before {
+    content: "";
+    height: 5px;
+    width: 5px;
+    background-color: #312929;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  #scenarioWrap p {
+    background-color: #dddddd;
+    padding: 10px;
+    margin-right: 10px;
+  }
+
+  #scenarioWrap {
+    display: flex;
+    margin-bottom: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .tbCount ul {
+    display: flex;
+    padding: 0px;
+    list-style: none;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+
+  .tbCount ul li {
+    width: 180px;
+    background-color: #dddddd;
+    padding: 3px 10px;
+    margin: 10px 10px 10px 0;
+  }
+
+  ol li:before {
+    counter-increment: section;
+    content: counters(section, ".") " ";
+    padding-right: 10px;
+  }
+
+  ol {
+    counter-reset: section;
+    list-style-type: none;
+  }
+
+  #violtime span {
+    font-size: 16px;
+  }
+
+  .senarioListing {
+    font-weight: 600;
+  }
+
+
+  .sidebar--menu .sub-sub-group-list a,
+  .sidebar--menu .sub-sub-group-list label {
+    padding-left: 4rem;
+  }
+
+  .sidebar--menu {
+    max-height: calc(100vh - 60px);
+    overflow: auto;
+  }
+  .table-m-0 table.reportTable {
+    margin-bottom: 0 !important
+  }
+
+
+  .container
+  {
+    width: 100%;
+    padding: 0;
+  }
